@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rakesh Lal | Senior Engineer</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (Modern Styling) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- GSAP & Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neon-blue': '#00f3ff',
+                        'neon-purple': '#bc13fe',
+                        'dark-bg': '#050505',
+                        'glass': 'rgba(255, 255, 255, 0.03)'
+                    },
+                    fontFamily: {
+                        'sans': ['Space Grotesk', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #050505;
+            color: white;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00f3ff;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(0, 243, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        body:hover .cursor-outline {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 243, 255, 0.05);
+        }
+
+        /* UI Transitions */
+        .section-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transform: translateX(100%);
+            transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-panel.active {
+            transform: translateX(0);
+        }
+
+        /* Scrollbar for content */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.02);
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #00f3ff;
+        }
+
+        /* Glitch Effect on Hover */
+        .glitch-hover:hover {
+            animation: glitch-anim 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+            color: #00f3ff;
+        }
+
+        @keyframes glitch-anim {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+
+        /* Grid Overlay */
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            background: 
+                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 3D Canvas -->
+    <canvas id="webgl" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+    <div class="grid-overlay"></div>
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- MAIN LANDING UI -->
+    <main id="landing-ui" class="relative z-10 w-full h-screen flex flex-col justify-between p-8 md:p-16 transition-all duration-500">
+        
+        <!-- Header -->
+        <header class="flex justify-between items-center">
+            <div class="text-2xl md:text-4xl font-bold tracking-tighter">
+                RAKESH<span class="text-neon-blue">.LAL</span>
+            </div>
+            <div class="hidden md:flex gap-4 text-xs font-mono text-gray-400">
+                <span class="flex items-center gap-2"><div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div> SYSTEM: ONLINE</span>
+                <span>V.2.0.4</span>
+            </div>
+        </header>
+
+        <!-- Hero Content -->
+        <div class="max-w-4xl">
+            <h2 class="text-5xl md:text-8xl font-bold leading-tight mb-6">
+                BUILDING <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple">SCALABLE</span> <br>
+                BACKENDS.
+            </h2>
+            <p class="text-gray-300 max-w-xl text-lg mb-10 font-light">
+                Senior Software Engineer specializing in Python, Go, and High-Performance APIs.
+                Transforming complex logic into clean, functional code.
+            </p>
+            
+            <!-- Nav Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <button onclick="openSection('experience')" class="nav-btn group relative overflow-hidden border border-gray-800 p-6 text-left hover:border-neon-blue transition-colors bg-glass">
+                    <div class="relative z-10">
+                        <i class="fa-solid fa-briefcase text-2xl mb-2 text-gray-400 group-hover:text-neon-blue transition-colors"></i>
+                        <h3 class="font-bold">Experience</h3>
+                    </div>
+                    <div class="absolute inset-0 bg-neon-blue/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                </button>
+
+                <button onclick="openSection('skills')" class="nav-btn group relative overflow-hidden border border-gray-800 p-6 text-left hover:border-neon-purple transition-colors bg-glass">
+                    <div class="relative z-10">
+                        <i class="fa-solid fa-code text-2xl mb-2 text-gray-400 group-hover:text-neon-purple transition-colors"></i>
+                        <h3 class="font-bold">Tech Stack</h3>
+                    </div>
+                    <div class="absolute inset-0 bg-neon-purple/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                </button>
+
+                <button onclick="openSection('education')" class="nav-btn group relative overflow-hidden border border-gray-800 p-6 text-left hover:border-white transition-colors bg-glass">
+                    <div class="relative z-10">
+                        <i class="fa-solid fa-graduation-cap text-2xl mb-2 text-gray-400 group-hover:text-white transition-colors"></i>
+                        <h3 class="font-bold">Education</h3>
+                    </div>
+                    <div class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                </button>
+
+                <a href="RakeshLalKN.pdf" download class="nav-btn group relative overflow-hidden border border-gray-800 p-6 text-left hover:border-green-500 transition-colors bg-glass flex flex-col justify-center">
+                    <div class="relative z-10">
+                        <i class="fa-solid fa-download text-2xl mb-2 text-gray-400 group-hover:text-green-500 transition-colors"></i>
+                        <h3 class="font-bold">Resume</h3>
+                    </div>
+                    <div class="absolute inset-0 bg-green-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex justify-between items-end text-gray-500 text-sm font-mono">
+            <div>BASE: KOCHI, KERALA</div>
+            <div class="flex gap-4">
+                <a href="mailto:rakeshlal724@gmail.com" class="hover:text-white transition-colors">MAIL</a>
+                <a href="https://github.com/Rakeshlalkn" target="_blank" class="hover:text-white transition-colors">GITHUB</a>
+                <a href="https://linkedin.com/in/rakesh-lal-0541401a7" target="_blank" class="hover:text-white transition-colors">LINKEDIN</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- SECTION PANELS (Overlay) -->
+    
+    <!-- EXPERIENCE PANEL -->
+    <div id="panel-experience" class="section-panel custom-scroll overflow-y-auto">
+        <div class="max-w-4xl w-full px-8 py-16 relative">
+            <button onclick="closeSection()" class="absolute top-8 right-8 text-2xl hover:text-neon-blue transition-colors z-50">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <h2 class="text-4xl md:text-6xl font-bold mb-12 text-neon-blue">EXPERIENCE</h2>
+            
+            <div class="space-y-12 border-l border-gray-800 ml-4 pl-8">
+                <!-- Job 1 -->
+                <div class="relative group">
+                    <div class="absolute -left-[41px] top-0 w-5 h-5 bg-dark-bg border-2 border-neon-blue rounded-full group-hover:bg-neon-blue transition-colors"></div>
+                    <h3 class="text-2xl font-bold text-white">Senior Software Engineer</h3>
+                    <p class="text-neon-blue font-mono mb-2">Beinex Consulting Ltd | July 2023 - Present</p>
+                    <ul class="list-none space-y-2 text-gray-300">
+                        <li class="flex items-start gap-2">
+                            <span class="text-neon-blue mt-1">▹</span>
+                            <span>Designed scalable RESTful APIs using <strong>Django, FastAPI, and MySQL</strong> for Enterprise GRC Platform.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-neon-blue mt-1">▹</span>
+                            <span>Optimized backend performance and contributed to architecture decisions.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-neon-blue mt-1">▹</span>
+                            <span>Mentored junior developers and led code reviews.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="relative group">
+                    <div class="absolute -left-[41px] top-0 w-5 h-5 bg-dark-bg border-2 border-gray-600 rounded-full group-hover:border-white transition-colors"></div>
+                    <h3 class="text-2xl font-bold text-white">Junior Software Engineer</h3>
+                    <p class="text-gray-400 font-mono mb-2">Epixel Solutions Pvt. Ltd | Sep 2021 - July 2023</p>
+                    <ul class="list-none space-y-2 text-gray-300">
+                        <li class="flex items-start gap-2">
+                            <span class="text-gray-500 mt-1">▹</span>
+                            <span>Developed MLM web applications using <strong>Django, Golang, and Node.js</strong>.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-gray-500 mt-1">▹</span>
+                            <span>Managed end-to-end development lifecycle.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SKILLS PANEL -->
+    <div id="panel-skills" class="section-panel custom-scroll overflow-y-auto">
+        <div class="max-w-5xl w-full px-8 py-16 relative">
+            <button onclick="closeSection()" class="absolute top-8 right-8 text-2xl hover:text-neon-purple transition-colors z-50">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h2 class="text-4xl md:text-6xl font-bold mb-12 text-neon-purple">TECH STACK</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Languages -->
+                <div class="p-6 border border-gray-800 bg-white/5 hover:border-neon-purple transition-colors">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-terminal"></i> Languages</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">Python</span>
+                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">Go</span>
+                    </div>
+                </div>
+
+                <!-- Frameworks -->
+                <div class="p-6 border border-gray-800 bg-white/5 hover:border-neon-purple transition-colors">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-layer-group"></i> Frameworks</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">Django</span>
+                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">FastAPI</span>
+                    </div>
+                </div>
+
+                <!-- Databases -->
+                <div class="p-6 border border-gray-800 bg-white/5 hover:border-neon-purple transition-colors">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-database"></i> Databases</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">MySQL</span>
+                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">PostgreSQL</span>
+                    </div>
+                </div>
+
+                <!-- Tools -->
+                <div class="p-6 border border-gray-800 bg-white/5 hover:border-neon-purple transition-colors">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-toolbox"></i> Tools & Ops</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">Git</span>
+                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">Docker</span>
+                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">REST APIs</span>
+                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">Agile/Scrum</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDUCATION PANEL -->
+    <div id="panel-education" class="section-panel">
+        <div class="max-w-4xl w-full px-8 py-16 relative">
+            <button onclick="closeSection()" class="absolute top-8 right-8 text-2xl hover:text-white transition-colors z-50">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h2 class="text-4xl md:text-6xl font-bold mb-12">EDUCATION</h2>
+
+            <div class="bg-white/5 p-8 border border-gray-800 mb-8 hover:border-white transition-colors">
+                <h3 class="text-2xl font-bold">B.Sc. in Computer Science</h3>
+                <p class="text-gray-400">Bharathiyar University, Palakkad</p>
+                <p class="text-gray-500 font-mono mt-2">Dec 2018 - Dec 2021</p>
+            </div>
+
+            <div class="bg-white/5 p-8 border border-gray-800 hover:border-white transition-colors">
+                <h3 class="text-xl font-bold mb-4">Certifications</h3>
+                <ul class="list-disc pl-5 space-y-2 text-gray-300">
+                    <li>HTML, CSS, and JavaScript for Web Developers (Coursera)</li>
+                    <li>Programming with Google Go (Coursera)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // --- UI LOGIC ---
+        function openSection(id) {
+            const panel = document.getElementById(`panel-${id}`);
+            panel.classList.add('active');
+            
+            // GSAP Entrance Animation for content
+            gsap.fromTo(panel.children, 
+                { y: 50, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, delay: 0.3 }
+            );
+
+            // Change 3D Scene Speed/Color on open
+            if(window.targetSpeed) window.targetSpeed = 0.2; // Slow down terrain
+        }
+
+        function closeSection() {
+            const panels = document.querySelectorAll('.section-panel');
+            panels.forEach(p => p.classList.remove('active'));
+            
+            // Reset 3D Scene
+            if(window.targetSpeed) window.targetSpeed = 0.5; // Speed up terrain
+        }
+
+        // Keyboard Support (ESC to close)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") closeSection();
+        });
+
+        // Custom Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with slight delay handled by CSS transition, 
+            // but we update position here
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // --- THREE.JS TERRAIN SHADER ---
+        const canvas = document.querySelector('#webgl');
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const scene = new THREE.Scene();
+        // Fog for depth fading
+        scene.fog = new THREE.FogExp2(0x050505, 0.03);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(0, 3, 6);
+        camera.rotation.x = -0.5;
+
+        // Geometry: A plane with many segments for the wave effect
+        const geometry = new THREE.PlaneGeometry(20, 20, 64, 64);
+        
+        // Material: Wireframe "Digital Grid"
+        const material = new THREE.MeshBasicMaterial({ 
+            color: 0x333333, 
+            wireframe: true,
+            transparent: true,
+            opacity: 0.3
+        });
+
+        // Second plane for "Highlight" waves (Neon Blue)
+        const highlightMaterial = new THREE.MeshBasicMaterial({
+            color: 0x00f3ff,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.15
+        });
+
+        const terrain = new THREE.Mesh(geometry, material);
+        const highlightTerrain = new THREE.Mesh(geometry, highlightMaterial);
+        
+        // Position them
+        terrain.rotation.x = -Math.PI / 2;
+        highlightTerrain.rotation.x = -Math.PI / 2;
+        highlightTerrain.position.y = 0.1; // Slightly above
+
+        scene.add(terrain);
+        scene.add(highlightTerrain);
+
+        // Particles for atmosphere
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 700;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 15; // Spread
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.02,
+            color: 0xbc13fe, // Purple
+            transparent: true,
+            opacity: 0.8
+        });
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        // Animation Variables
+        let time = 0;
+        window.targetSpeed = 0.5;
+        let currentSpeed = 0.5;
+
+        // Mouse Parallax
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // Animation Loop
+        const clock = new THREE.Clock();
+
+        function tick() {
+            const elapsedTime = clock.getElapsedTime();
+
+            // Smooth speed transition
+            currentSpeed += (window.targetSpeed - currentSpeed) * 0.05;
+
+            time += 0.005 * currentSpeed;
+
+            // Animate Terrain Waves (Vertex Manipulation)
+            const positionAttribute = geometry.attributes.position;
+            
+            for(let i = 0; i < positionAttribute.count; i++){
+                const x = positionAttribute.getX(i);
+                // Create a moving wave based on X and Time
+                const z = Math.sin(x * 2 + time * 10) * 0.2 + Math.sin(x * 5 + time * 5) * 0.1;
+                positionAttribute.setZ(i, z);
+            }
+            positionAttribute.needsUpdate = true;
+
+            // Move terrain towards camera to simulate infinite flight
+            // Reset position when it moves too far
+            highlightTerrain.position.z = (time * 2) % 2; 
+            terrain.position.z = (time * 2) % 2;
+
+            // Camera Sway (Mouse Interaction)
+            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+            camera.position.y += (3 + mouseY * 0.5 - camera.position.y) * 0.05;
+            camera.lookAt(0, 0, 0);
+
+            // Particles gentle rotation
+            particlesMesh.rotation.y = elapsedTime * 0.05;
+
+            renderer.render(scene, camera);
+            window.requestAnimationFrame(tick);
+        }
+
+        tick();
+
+        // Resize Handling
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+</html>
