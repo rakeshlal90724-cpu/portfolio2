@@ -265,20 +265,26 @@
                 </div>
                 <div class="relative">
                     <div
-                        class="aspect-square glass-card rounded-2xl overflow-hidden flex flex-col items-center justify-center p-6 text-center">
+                        class="glass-card rounded-2xl overflow-hidden flex flex-col items-center justify-center p-12 text-center max-w-sm ml-auto">
                         <div
-                            class="w-32 h-32 rounded-full border-2 border-neon-blue/30 p-1 mb-6 relative group transform hover:scale-105 transition-transform duration-500">
+                            class="w-48 h-48 rounded-full border-2 border-neon-blue/30 p-1 mb-8 relative group transform hover:scale-105 transition-transform duration-500 shadow-[0_0_30px_rgba(0,243,255,0.1)]">
                             <img src="./static/profile.png" alt="Rakesh Lal K N"
                                 class="w-full h-full rounded-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
                             <div
                                 class="absolute inset-0 rounded-full bg-neon-blue/10 animate-pulse opacity-0 group-hover:opacity-100 transition-opacity">
                             </div>
                         </div>
-                        <div class="font-mono text-sm text-gray-500">
-                            <span class="text-neon-blue">$</span> whoami <br>
-                            <span class="text-white font-bold">Rakesh Lal K N</span> <br>
-                            <span class="text-neon-purple">$</span> location <br>
-                            <span class="text-white">Palakkad, Kerala</span>
+                        <div class="font-mono text-base space-y-3">
+                            <div>
+                                <span class="text-neon-blue">$</span> <span
+                                    class="text-gray-500 uppercase text-[10px] tracking-widest">whoami</span><br>
+                                <span class="text-white font-bold text-xl tracking-tighter">Rakesh Lal K N</span>
+                            </div>
+                            <div class="pt-2">
+                                <span class="text-neon-purple">$</span> <span
+                                    class="text-gray-500 uppercase text-[10px] tracking-widest">location</span><br>
+                                <span class="text-white">Palakkad, Kerala</span>
+                            </div>
                         </div>
                     </div>
                     <!-- Decorative element -->
@@ -295,99 +301,112 @@
                 <h3 class="text-4xl md:text-6xl font-bold tracking-tighter">Tools of the trade.</h3>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Backend -->
-                <div class="glass-card p-8 group">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Languages & Core -->
+                <div class="glass-card p-6 group">
                     <div
-                        class="w-12 h-12 bg-neon-blue/10 flex items-center justify-center rounded-lg mb-6 group-hover:bg-neon-blue/20 transition-colors">
-                        <i class="fa-solid fa-server text-neon-blue"></i>
+                        class="w-10 h-10 bg-neon-blue/10 flex items-center justify-center rounded-lg mb-6 group-hover:bg-neon-blue/20 transition-colors">
+                        <i class="fa-solid fa-code text-neon-blue"></i>
                     </div>
-                    <h4 class="text-xl font-bold mb-4">Backend Development</h4>
-                    <p class="text-gray-500 text-sm mb-6">Specialized in building secure and high-performance APIs and
-                        microservices.</p>
+                    <h4 class="text-lg font-bold mb-4 tracking-tighter uppercase">Languages & Core</h4>
                     <div class="flex flex-wrap gap-2">
                         <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
                                 class="fa-brands fa-python text-[#3776AB]"></i> Python</span>
                         <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
-                                class="fa-brands fa-golang text-[#00ADD8]"></i> Go</span>
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
+                                class="fa-brands fa-golang text-[#00ADD8]"></i> Go (Golang)</span>
                         <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
+                                class="fa-brands fa-js text-[#F7DF1E]"></i> JavaScript</span>
+                    </div>
+                </div>
+
+                <!-- Backend & Frameworks -->
+                <div class="glass-card p-6 group">
+                    <div
+                        class="w-10 h-10 bg-neon-purple/10 flex items-center justify-center rounded-lg mb-6 group-hover:bg-neon-purple/20 transition-colors">
+                        <i class="fa-solid fa-server text-neon-purple"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-4 tracking-tighter uppercase">Backend & Frameworks</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
                                 class="fa-solid fa-leaf text-[#092E20]"></i> Django</span>
                         <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1">DRF</span>
+                        <span
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
                                 class="fa-solid fa-bolt text-[#05998B]"></i> FastAPI</span>
                         <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
-                                class="fa-solid fa-clock text-[#37814A]"></i> Celery</span>
-                        <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
-                                class="fa-solid fa-shield-halved text-[#E92063]"></i> Pydantic</span>
-                        <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
                                 class="fa-brands fa-node-js text-[#339933]"></i> Node.js</span>
                         <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
-                                class="fa-solid fa-feather text-[#50B2D0]"></i> Poetry</span>
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1">Microservices</span>
+                        <span
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1">RESTful
+                            APIs</span>
                     </div>
                 </div>
 
-                <!-- DevOps -->
-                <div class="glass-card p-8 group">
+                <!-- Data & Databases -->
+                <div class="glass-card p-6 group">
                     <div
-                        class="w-12 h-12 bg-neon-purple/10 flex items-center justify-center rounded-lg mb-6 group-hover:bg-neon-purple/20 transition-colors">
-                        <i class="fa-solid fa-infinity text-neon-purple"></i>
-                    </div>
-                    <h4 class="text-xl font-bold mb-4">DevOps & Cloud</h4>
-                    <p class="text-gray-500 text-sm mb-6">Automation and orchestration for seamless deployments and
-                        scaling.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
-                                class="fa-brands fa-docker text-[#2496ED]"></i> Docker</span>
-                        <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
-                                class="fa-brands fa-gitlab text-[#FC6D26]"></i> GitLab CI/CD</span>
-                        <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
-                                class="fa-brands fa-aws text-[#FF9900]"></i> AWS</span>
-                        <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
-                                class="fa-solid fa-terminal text-[#4EAA25]"></i> Bash</span>
-                    </div>
-                </div>
-
-                <!-- Web/DB -->
-                <div class="glass-card p-8 group">
-                    <div
-                        class="w-12 h-12 bg-emerald-500/10 flex items-center justify-center rounded-lg mb-6 group-hover:bg-emerald-500/20 transition-colors">
+                        class="w-10 h-10 bg-emerald-500/10 flex items-center justify-center rounded-lg mb-6 group-hover:bg-emerald-500/20 transition-colors">
                         <i class="fa-solid fa-database text-emerald-500"></i>
                     </div>
-                    <h4 class="text-xl font-bold mb-4">Data & Frontend</h4>
-                    <p class="text-gray-500 text-sm mb-6">Efficient data modeling and interactive user experiences.</p>
+                    <h4 class="text-lg font-bold mb-4 tracking-tighter uppercase">Data & Databases</h4>
                     <div class="flex flex-wrap gap-2">
                         <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
                                 class="fa-solid fa-database text-[#336791]"></i> PostgreSQL</span>
                         <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
                                 class="fa-solid fa-database text-[#4479A1]"></i> MySQL</span>
                         <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
                                 class="fa-solid fa-box text-[#D82C20]"></i> Redis</span>
                         <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
                                 class="fa-solid fa-chart-line text-[#150458]"></i> Pandas</span>
                         <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
                                 class="fa-solid fa-arrow-up-right-dots text-[#013243]"></i> Numpy</span>
                         <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
-                                class="fa-brands fa-html5 text-[#E34F26]"></i> HTML/CSS</span>
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
+                                class="fa-solid fa-shield-halved text-[#E92063]"></i> Pydantic</span>
+                    </div>
+                </div>
+
+                <!-- DevOps & Web -->
+                <div class="glass-card p-6 group">
+                    <div
+                        class="w-10 h-10 bg-orange-500/10 flex items-center justify-center rounded-lg mb-6 group-hover:bg-orange-500/20 transition-colors">
+                        <i class="fa-solid fa-toolbox text-orange-500"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-4 tracking-tighter uppercase">DevOps & Web</h4>
+                    <div class="flex flex-wrap gap-2">
                         <span
-                            class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i
-                                class="fa-brands fa-js text-[#F7DF1E]"></i> JavaScript</span>
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
+                                class="fa-brands fa-docker text-[#2496ED]"></i> Docker</span>
+                        <span
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
+                                class="fa-solid fa-infinity text-[#FC6D26]"></i> CI/CD</span>
+                        <span
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
+                                class="fa-brands fa-github"></i> Git</span>
+                        <span
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
+                                class="fa-solid fa-feather text-[#50B2D0]"></i> Poetry</span>
+                        <span
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
+                                class="fa-solid fa-clock text-[#37814A]"></i> Celery</span>
+                        <span
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
+                                class="fa-brands fa-bootstrap text-[#7952B3]"></i> Bootstrap</span>
+                        <span
+                            class="px-2 py-1 bg-white/5 border border-white/10 text-[10px] font-mono flex items-center gap-1"><i
+                                class="fa-brands fa-html5 text-[#E34F26]"></i> HTML/CSS</span>
                     </div>
                 </div>
             </div>
