@@ -1,24 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rakesh Lal | Senior Engineer</title>
-    
+    <title>Rakesh Lal | Senior Software Engineer</title>
+    <meta name="description"
+        content="Portfolio of Rakesh Lal, Senior Software Engineer specialized in Python, Go, and Scalable Backend Systems.">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS (Modern Styling) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- GSAP & Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -28,7 +34,8 @@
                         'neon-blue': '#00f3ff',
                         'neon-purple': '#bc13fe',
                         'dark-bg': '#050505',
-                        'glass': 'rgba(255, 255, 255, 0.03)'
+                        'glass': 'rgba(255, 255, 255, 0.03)',
+                        'glass-border': 'rgba(255, 255, 255, 0.1)'
                     },
                     fontFamily: {
                         'sans': ['Space Grotesk', 'sans-serif'],
@@ -40,11 +47,34 @@
     </script>
 
     <style>
+        * {
+            cursor: none !important;
+        }
+
         body {
-            margin: 0;
-            overflow: hidden;
             background-color: #050505;
             color: white;
+            margin: 0;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #333 #050505;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f3ff;
         }
 
         /* Custom Cursor */
@@ -72,320 +102,457 @@
             transition: width 0.2s, height 0.2s, background-color 0.2s;
         }
 
-        body:hover .cursor-outline {
-            width: 50px;
-            height: 50px;
-            background-color: rgba(0, 243, 255, 0.05);
+        /* Hero Text Animation */
+        .reveal-text {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
         }
 
-        /* UI Transitions */
-        .section-panel {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(5, 5, 5, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            transform: translateX(100%);
-            transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
-            z-index: 50;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Glass Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
         }
 
-        .section-panel.active {
-            transform: translateX(0);
+        .glass-card:hover {
+            border-color: rgba(0, 243, 255, 0.3);
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(-5px);
         }
 
-        /* Scrollbar for content */
-        .custom-scroll::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scroll::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.02);
-        }
-        .custom-scroll::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 3px;
-        }
-        .custom-scroll::-webkit-scrollbar-thumb:hover {
-            background: #00f3ff;
-        }
-
-        /* Glitch Effect on Hover */
-        .glitch-hover:hover {
-            animation: glitch-anim 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-            color: #00f3ff;
-        }
-
-        @keyframes glitch-anim {
-            0% { transform: translate(0) }
-            20% { transform: translate(-2px, 2px) }
-            40% { transform: translate(-2px, -2px) }
-            60% { transform: translate(2px, 2px) }
-            80% { transform: translate(2px, -2px) }
-            100% { transform: translate(0) }
-        }
-
-        /* Grid Overlay */
+        /* Grids & Overlays */
         .grid-overlay {
             position: fixed;
             inset: 0;
-            background: 
-                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background:
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
             pointer-events: none;
-            z-index: 1;
+            z-index: -1;
+        }
+
+        .noise-bg {
+            position: fixed;
+            inset: 0;
+            background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Section Spacing */
+        section {
+            padding: 100px 0;
+        }
+
+        .text-neon {
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+
+        /* Experience Timeline */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: #050505;
+            border: 2px solid #00f3ff;
+            border-radius: 50%;
+            z-index: 10;
         }
     </style>
 </head>
-<body>
 
-    <!-- 3D Canvas -->
-    <canvas id="webgl" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+<body class="font-sans antialiased">
+    <!-- background context -->
+    <canvas id="webgl" class="fixed top-0 left-0 w-full h-full -z-20"></canvas>
     <div class="grid-overlay"></div>
+    <div class="noise-bg"></div>
 
-    <!-- Custom Cursor Elements -->
+    <!-- Custom Cursor -->
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
-    <!-- MAIN LANDING UI -->
-    <main id="landing-ui" class="relative z-10 w-full h-screen flex flex-col justify-between p-8 md:p-16 transition-all duration-500">
-        
-        <!-- Header -->
-        <header class="flex justify-between items-center">
-            <div class="text-2xl md:text-4xl font-bold tracking-tighter">
-                RAKESH<span class="text-neon-blue">.LAL</span>
-            </div>
-            <div class="hidden md:flex gap-4 text-xs font-mono text-gray-400">
-                <span class="flex items-center gap-2"><div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div> SYSTEM: ONLINE</span>
-                <span>V.2.0.4</span>
-            </div>
-        </header>
-
-        <!-- Hero Content -->
-        <div class="max-w-4xl">
-            <h2 class="text-5xl md:text-8xl font-bold leading-tight mb-6">
-                BUILDING <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple">SCALABLE</span> <br>
-                BACKENDS.
-            </h2>
-            <p class="text-gray-300 max-w-xl text-lg mb-10 font-light">
-                Senior Software Engineer specializing in Python, Go, and High-Performance APIs.
-                Transforming complex logic into clean, functional code.
-            </p>
-            
-            <!-- Nav Grid -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <button onclick="openSection('experience')" class="nav-btn group relative overflow-hidden border border-gray-800 p-6 text-left hover:border-neon-blue transition-colors bg-glass">
-                    <div class="relative z-10">
-                        <i class="fa-solid fa-briefcase text-2xl mb-2 text-gray-400 group-hover:text-neon-blue transition-colors"></i>
-                        <h3 class="font-bold">Experience</h3>
-                    </div>
-                    <div class="absolute inset-0 bg-neon-blue/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                </button>
-
-                <button onclick="openSection('skills')" class="nav-btn group relative overflow-hidden border border-gray-800 p-6 text-left hover:border-neon-purple transition-colors bg-glass">
-                    <div class="relative z-10">
-                        <i class="fa-solid fa-code text-2xl mb-2 text-gray-400 group-hover:text-neon-purple transition-colors"></i>
-                        <h3 class="font-bold">Tech Stack</h3>
-                    </div>
-                    <div class="absolute inset-0 bg-neon-purple/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                </button>
-
-                <button onclick="openSection('education')" class="nav-btn group relative overflow-hidden border border-gray-800 p-6 text-left hover:border-white transition-colors bg-glass">
-                    <div class="relative z-10">
-                        <i class="fa-solid fa-graduation-cap text-2xl mb-2 text-gray-400 group-hover:text-white transition-colors"></i>
-                        <h3 class="font-bold">Education</h3>
-                    </div>
-                    <div class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                </button>
-
-                <a href="RakeshLalKN.pdf" download class="nav-btn group relative overflow-hidden border border-gray-800 p-6 text-left hover:border-green-500 transition-colors bg-glass flex flex-col justify-center">
-                    <div class="relative z-10">
-                        <i class="fa-solid fa-download text-2xl mb-2 text-gray-400 group-hover:text-green-500 transition-colors"></i>
-                        <h3 class="font-bold">Resume</h3>
-                    </div>
-                    <div class="absolute inset-0 bg-green-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                </a>
-            </div>
+    <!-- Header / Nav -->
+    <header class="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center mix-blend-difference">
+        <div class="text-2xl font-bold tracking-tighter">
+            RAKESH<span class="text-neon-blue">.LAL</span>
         </div>
+        <nav class="hidden md:flex gap-8 text-sm font-mono tracking-widest uppercase items-center">
+            <a href="#about" class="hover:text-neon-blue transition-colors">About</a>
+            <a href="#experience" class="hover:text-neon-blue transition-colors">Experience</a>
+            <a href="#skills" class="hover:text-neon-blue transition-colors">Tech</a>
+            <a href="#education" class="hover:text-neon-blue transition-colors">Education</a>
+            <a href="./assets/resume.pdf" download
+                class="px-4 py-2 border border-white hover:bg-white hover:text-black transition-all">Resume</a>
+        </nav>
+        <button class="md:hidden text-2xl">
+            <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+    </header>
 
-        <!-- Footer -->
-        <div class="flex justify-between items-end text-gray-500 text-sm font-mono">
-            <div>BASE: KOCHI, KERALA</div>
-            <div class="flex gap-4">
-                <a href="mailto:rakeshlal724@gmail.com" class="hover:text-white transition-colors">MAIL</a>
-                <a href="https://github.com/Rakeshlalkn" target="_blank" class="hover:text-white transition-colors">GITHUB</a>
-                <a href="https://linkedin.com/in/rakesh-lal-0541401a7" target="_blank" class="hover:text-white transition-colors">LINKEDIN</a>
+    <!-- Progress Bar -->
+    <div id="progress" class="fixed top-0 left-0 h-1 bg-neon-blue z-[60] w-0"></div>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="min-h-screen flex flex-col justify-center px-8 md:px-24">
+            <div class="max-w-5xl">
+                <div
+                    class="inline-block px-3 py-1 bg-neon-blue/10 text-neon-blue text-xs font-mono mb-6 border border-neon-blue/20 rounded">
+                    SENIOR SOFTWARE ENGINEER
+                </div>
+                <h1 id="hero-title"
+                    class="text-6xl md:text-9xl font-bold leading-[0.9] tracking-tighter mb-8 reveal-text">
+                    CRAFTING <br>
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple italic">SCALABLE</span>
+                    <br>
+                    ECOSYSTEMS.
+                </h1>
+                <p id="hero-sub" class="text-xl md:text-2xl text-gray-400 max-w-2xl font-light mb-12">
+                    Innovative Software Engineer with 4+ years of experience in designing and maintaining
+                    high-performance web applications. Focused on <strong>Python, Go, and DevOps</strong>.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#experience"
+                        class="px-8 py-4 bg-neon-blue text-black font-bold hover:bg-transparent hover:text-neon-blue border border-neon-blue transition-all">View
+                        Experience</a>
+                    <a href="#contact"
+                        class="px-8 py-4 border border-white/20 hover:border-white transition-all font-bold">Get In
+                        Touch</a>
+                </div>
             </div>
-        </div>
-    </main>
 
-    <!-- SECTION PANELS (Overlay) -->
-    
-    <!-- EXPERIENCE PANEL -->
-    <div id="panel-experience" class="section-panel custom-scroll overflow-y-auto">
-        <div class="max-w-4xl w-full px-8 py-16 relative">
-            <button onclick="closeSection()" class="absolute top-8 right-8 text-2xl hover:text-neon-blue transition-colors z-50">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            
-            <h2 class="text-4xl md:text-6xl font-bold mb-12 text-neon-blue">EXPERIENCE</h2>
-            
-            <div class="space-y-12 border-l border-gray-800 ml-4 pl-8">
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+                <span class="text-[10px] font-mono text-gray-500 uppercase tracking-[0.2em]">Scroll</span>
+                <div class="w-px h-12 bg-gradient-to-b from-neon-blue to-transparent"></div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about" class="px-8 md:px-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="space-y-6">
+                    <h2 class="text-sm font-mono text-neon-blue uppercase tracking-widest">01 // Biography</h2>
+                    <h3 class="text-4xl md:text-5xl font-bold">Motivated by complex <span
+                            class="italic font-light">logics</span> and robust <span
+                            class="italic font-light">systems</span>.</h3>
+                    <p class="text-gray-400 text-lg leading-relaxed">
+                        I am a Senior Software Engineer with a proven ability to deliver maintainable software. My
+                        journey started with a deep fascination for how data flows through distributed systems, leading
+                        me to specialize in backend architectures that power modern enterprises.
+                    </p>
+                    <p class="text-gray-400 text-lg leading-relaxed">
+                        I've spent the last 4 years bridging the gap between design and deployment, ensuring scalability
+                        and security are never afterthoughts.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 pt-4">
+                        <div>
+                            <span class="block text-2xl font-bold">4+</span>
+                            <span class="text-gray-500 text-xs font-mono uppercase">Years Experience</span>
+                        </div>
+                        <div>
+                            <span class="block text-2xl font-bold">12+</span>
+                            <span class="text-gray-500 text-xs font-mono uppercase">Core Skills</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div
+                        class="aspect-square glass-card rounded-2xl overflow-hidden flex flex-col items-center justify-center p-6 text-center">
+                        <div class="w-32 h-32 rounded-full border-2 border-neon-blue/30 p-1 mb-6 relative group transform hover:scale-105 transition-transform duration-500">
+                             <img src="./assets/profile.jpg" alt="Rakesh Lal K N" class="w-full h-full rounded-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                             <div class="absolute inset-0 rounded-full bg-neon-blue/10 animate-pulse opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        </div>
+                        <div class="font-mono text-sm text-gray-500">
+                            <span class="text-neon-blue">$</span> whoami <br>
+                            <span class="text-white font-bold">Rakesh Lal K N</span> <br>
+                            <span class="text-neon-purple">$</span> location <br>
+                            <span class="text-white">Palakkad, Kerala</span>
+                        </div>
+                    </div>
+                    <!-- Decorative element -->
+                    <div class="absolute -top-4 -right-4 w-24 h-24 border-t-2 border-r-2 border-neon-purple opacity-30">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERTISE / SKILLS -->
+        <section id="skills" class="px-8 md:px-24 bg-white/[0.01]">
+            <div class="mb-16">
+                <h2 class="text-sm font-mono text-neon-purple uppercase tracking-widest mb-4">02 // Technical Stack</h2>
+                <h3 class="text-4xl md:text-6xl font-bold tracking-tighter">Tools of the trade.</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Backend -->
+                <div class="glass-card p-8 group">
+                    <div
+                        class="w-12 h-12 bg-neon-blue/10 flex items-center justify-center rounded-lg mb-6 group-hover:bg-neon-blue/20 transition-colors">
+                        <i class="fa-solid fa-server text-neon-blue"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Backend Development</h4>
+                    <p class="text-gray-500 text-sm mb-6">Specialized in building secure and high-performance APIs and
+                        microservices.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i class="fa-brands fa-python text-[#3776AB]"></i> Python</span>
+                        <span class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i class="fa-brands fa-golang text-[#00ADD8]"></i> Go</span>
+                        <span class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i class="fa-solid fa-leaf text-[#092E20]"></i> Django</span>
+                        <span class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i class="fa-solid fa-bolt text-[#05998B]"></i> FastAPI</span>
+                        <span class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i class="fa-brands fa-node-js text-[#339933]"></i> Node.js</span>
+                    </div>
+                </div>
+
+                <!-- DevOps -->
+                <div class="glass-card p-8 group">
+                    <div
+                        class="w-12 h-12 bg-neon-purple/10 flex items-center justify-center rounded-lg mb-6 group-hover:bg-neon-purple/20 transition-colors">
+                        <i class="fa-solid fa-infinity text-neon-purple"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">DevOps & Cloud</h4>
+                    <p class="text-gray-500 text-sm mb-6">Automation and orchestration for seamless deployments and
+                        scaling.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i class="fa-brands fa-docker text-[#2496ED]"></i> Docker</span>
+                        <span class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i class="fa-brands fa-gitlab text-[#FC6D26]"></i> GitLab CI/CD</span>
+                        <span class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i class="fa-brands fa-aws text-[#FF9900]"></i> AWS</span>
+                        <span class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i class="fa-solid fa-terminal text-[#4EAA25]"></i> Bash</span>
+                    </div>
+                </div>
+
+                <!-- Web/DB -->
+                <div class="glass-card p-8 group">
+                    <div
+                        class="w-12 h-12 bg-emerald-500/10 flex items-center justify-center rounded-lg mb-6 group-hover:bg-emerald-500/20 transition-colors">
+                        <i class="fa-solid fa-database text-emerald-500"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Data & Frontend</h4>
+                    <p class="text-gray-500 text-sm mb-6">Efficient data modeling and interactive user experiences.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i class="fa-solid fa-database text-[#336791]"></i> PostgreSQL</span>
+                        <span class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i class="fa-solid fa-database text-[#4479A1]"></i> MySQL</span>
+                        <span class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i class="fa-solid fa-box text-[#D82C20]"></i> Redis</span>
+                        <span class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i class="fa-brands fa-html5 text-[#E34F26]"></i> HTML/CSS</span>
+                        <span class="px-2 py-1 bg-white/5 border border-white/10 text-xs font-mono flex items-center gap-1"><i class="fa-brands fa-js text-[#F7DF1E]"></i> JavaScript</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section id="experience" class="px-8 md:px-24">
+            <div class="mb-16">
+                <h2 class="text-sm font-mono text-neon-blue uppercase tracking-widest mb-4">03 // Career Journey</h2>
+                <h3 class="text-4xl md:text-6xl font-bold tracking-tighter">Experience.</h3>
+            </div>
+
+            <div class="max-w-4xl border-l border-white/10 ml-4 space-y-16">
                 <!-- Job 1 -->
-                <div class="relative group">
-                    <div class="absolute -left-[41px] top-0 w-5 h-5 bg-dark-bg border-2 border-neon-blue rounded-full group-hover:bg-neon-blue transition-colors"></div>
-                    <h3 class="text-2xl font-bold text-white">Senior Software Engineer</h3>
-                    <p class="text-neon-blue font-mono mb-2">Beinex Consulting Ltd | July 2023 - Present</p>
-                    <ul class="list-none space-y-2 text-gray-300">
-                        <li class="flex items-start gap-2">
-                            <span class="text-neon-blue mt-1">▹</span>
-                            <span>Designed scalable RESTful APIs using <strong>Django, FastAPI, and MySQL</strong> for Enterprise GRC Platform.</span>
+                <div class="relative pl-12 timeline-item">
+                    <span
+                        class="text-xs font-mono text-neon-blue bg-neon-blue/5 px-2 py-1 rounded inline-block mb-3">July
+                        2023 — Present</span>
+                    <h4 class="text-2xl font-bold">Senior Software Engineer</h4>
+                    <div class="text-lg text-gray-400 mb-6">Beinex Consulting Ltd</div>
+                    <ul class="list-none space-y-4 text-gray-500">
+                        <li class="flex gap-4">
+                            <span class="text-neon-blue text-lg">▹</span>
+                            <span>Designed and built secure, scalable RESTful APIs using <strong>Django, FastAPI, and
+                                    MySQL</strong> for high-traffic environments.</span>
                         </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-neon-blue mt-1">▹</span>
-                            <span>Optimized backend performance and contributed to architecture decisions.</span>
+                        <li class="flex gap-4">
+                            <span class="text-neon-blue text-lg">▹</span>
+                            <span>Developed and maintained automated <strong>CI/CD pipelines via GitLab</strong> for
+                                streamlined testing and production deployment.</span>
                         </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-neon-blue mt-1">▹</span>
-                            <span>Mentored junior developers and led code reviews.</span>
+                        <li class="flex gap-4">
+                            <span class="text-neon-blue text-lg">▹</span>
+                            <span>Implemented <strong>Microservices</strong> to enhance system modularity and improve
+                                horizontal scalability.</span>
+                        </li>
+                        <li class="flex gap-4">
+                            <span class="text-neon-blue text-lg">▹</span>
+                            <span>Mentored junior developers, leading architectural reviews and facilitating team-wide
+                                technical growth.</span>
                         </li>
                     </ul>
                 </div>
 
                 <!-- Job 2 -->
-                <div class="relative group">
-                    <div class="absolute -left-[41px] top-0 w-5 h-5 bg-dark-bg border-2 border-gray-600 rounded-full group-hover:border-white transition-colors"></div>
-                    <h3 class="text-2xl font-bold text-white">Junior Software Engineer</h3>
-                    <p class="text-gray-400 font-mono mb-2">Epixel Solutions Pvt. Ltd | Sep 2021 - July 2023</p>
-                    <ul class="list-none space-y-2 text-gray-300">
-                        <li class="flex items-start gap-2">
-                            <span class="text-gray-500 mt-1">▹</span>
-                            <span>Developed MLM web applications using <strong>Django, Golang, and Node.js</strong>.</span>
+                <div class="relative pl-12 timeline-item">
+                    <span class="text-xs font-mono text-gray-500 bg-white/5 px-2 py-1 rounded inline-block mb-3">Sep
+                        2021 — July 2023</span>
+                    <h4 class="text-2xl font-bold">Junior Software Engineer</h4>
+                    <div class="text-lg text-gray-400 mb-6">Epixel Solutions Pvt. Ltd</div>
+                    <ul class="list-none space-y-4 text-gray-500">
+                        <li class="flex gap-4">
+                            <span class="text-neon-blue text-lg">▹</span>
+                            <span>Developed and maintained complex MLM web applications using <strong>Django, Golang,
+                                    and Node.js</strong>.</span>
                         </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-gray-500 mt-1">▹</span>
-                            <span>Managed end-to-end development lifecycle.</span>
+                        <li class="flex gap-4">
+                            <span class="text-neon-blue text-lg">▹</span>
+                            <span>Handled end-to-end development lifecycle from initial conceptual design to live
+                                deployment.</span>
+                        </li>
+                        <li class="flex gap-4">
+                            <span class="text-neon-blue text-lg">▹</span>
+                            <span>Collaborated closely with design team to translate UI/UX requirements into functional,
+                                responsive code.</span>
                         </li>
                     </ul>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- SKILLS PANEL -->
-    <div id="panel-skills" class="section-panel custom-scroll overflow-y-auto">
-        <div class="max-w-5xl w-full px-8 py-16 relative">
-            <button onclick="closeSection()" class="absolute top-8 right-8 text-2xl hover:text-neon-purple transition-colors z-50">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <h2 class="text-4xl md:text-6xl font-bold mb-12 text-neon-purple">TECH STACK</h2>
+        <!-- EDUCATION -->
+        <section id="education" class="px-8 md:px-24 bg-white/[0.01]">
+            <div class="mb-16">
+                <h2 class="text-sm font-mono text-emerald-500 uppercase tracking-widest mb-4">04 // Foundation</h2>
+                <h3 class="text-4xl md:text-6xl font-bold tracking-tighter">Education & Honors.</h3>
+            </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Languages -->
-                <div class="p-6 border border-gray-800 bg-white/5 hover:border-neon-purple transition-colors">
-                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-terminal"></i> Languages</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">Python</span>
-                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">Go</span>
-                    </div>
+                <div class="glass-card p-10 border-l-4 border-l-neon-blue">
+                    <span class="text-xs font-mono text-gray-500">2018 - 2021</span>
+                    <h4 class="text-2xl font-bold mt-2">B.Sc. in Computer Science</h4>
+                    <p class="text-gray-400">Bharathiyar University, Palakkad</p>
                 </div>
-
-                <!-- Frameworks -->
-                <div class="p-6 border border-gray-800 bg-white/5 hover:border-neon-purple transition-colors">
-                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-layer-group"></i> Frameworks</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">Django</span>
-                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">FastAPI</span>
-                    </div>
+                <div class="glass-card p-10 border-l-4 border-l-neon-purple">
+                    <span class="text-xs font-mono text-gray-500">2018 - 2021</span>
+                    <h4 class="text-2xl font-bold mt-2">Diploma in Computer Hardware</h4>
+                    <p class="text-gray-400">Palakkad, Kerala</p>
                 </div>
+            </div>
 
-                <!-- Databases -->
-                <div class="p-6 border border-gray-800 bg-white/5 hover:border-neon-purple transition-colors">
-                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-database"></i> Databases</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">MySQL</span>
-                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">PostgreSQL</span>
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <a href="https://www.coursera.org/account/accomplishments/specialization/certificate/7DZFBXGQS7GS" target="_blank" class="p-6 border border-white/5 flex items-center gap-4 hover:border-neon-blue transition-colors group">
+                    <i class="fa-brands fa-golang text-3xl text-[#00ADD8] group-hover:scale-110 transition-transform"></i>
+                    <div>
+                        <div class="font-bold">Programming with Google Go</div>
+                        <div class="text-xs text-gray-500 font-mono">Coursera Specialization</div>
                     </div>
-                </div>
-
-                <!-- Tools -->
-                <div class="p-6 border border-gray-800 bg-white/5 hover:border-neon-purple transition-colors">
-                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-toolbox"></i> Tools & Ops</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">Git</span>
-                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">Docker</span>
-                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">REST APIs</span>
-                        <span class="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded text-sm font-mono">Agile/Scrum</span>
+                </a>
+                <a href="https://www.coursera.org/account/accomplishments/certificate/C3S7B2K8ZNDE" target="_blank" class="p-6 border border-white/5 flex items-center gap-4 hover:border-neon-blue transition-colors group">
+                    <i class="fa-solid fa-code text-2xl text-neon-blue group-hover:scale-110 transition-transform"></i>
+                    <div>
+                        <div class="font-bold">Web Development</div>
+                        <div class="text-xs text-gray-500 font-mono">JHU Coursera</div>
+                    </div>
+                </a>
+                <div class="p-6 border border-white/5 flex items-center gap-4">
+                    <i class="fa-solid fa-language text-2xl text-neon-purple"></i>
+                    <div>
+                        <div class="font-bold">Multilingual</div>
+                        <div class="text-xs text-gray-500 font-mono">EN, ML, TN</div>
                     </div>
                 </div>
             </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="px-8 md:px-24 pb-32">
+            <div class="glass-card p-12 md:p-24 rounded-[3rem] text-center relative overflow-hidden">
+                <div class="relative z-10">
+                    <h2 class="text-sm font-mono text-neon-blue uppercase tracking-widest mb-6">Need a expert?</h2>
+                    <h3 class="text-5xl md:text-8xl font-bold mb-12 tracking-tighter">Let's build <br> something <span
+                            class="italic font-light">great</span>.</h3>
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                        <a href="mailto:rakeshlal724@gmail.com"
+                            class="text-xl md:text-3xl font-mono hover:text-neon-blue transition-colors underline decoration-neon-blue/30 underline-offset-8">rakeshlal724@gmail.com</a>
+                        <div class="hidden md:block w-20 h-px bg-white/20"></div>
+                        <div class="flex gap-8 text-2xl">
+                            <a href="https://linkedin.com/in/rakesh-lal-0541401a7" target="_blank"
+                                class="hover:text-neon-blue transition-colors"><i class="fa-brands fa-linkedin"></i></a>
+                            <a href="https://github.com/Rakeshlalkn" target="_blank"
+                                class="hover:text-neon-blue transition-colors"><i class="fa-brands fa-github"></i></a>
+                            <a href="tel:+919072472470" class="hover:text-neon-blue transition-colors"><i
+                                    class="fa-solid fa-phone"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Abstract Glow -->
+                <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-neon-blue/20 rounded-full blur-[100px]"></div>
+                <div class="absolute -top-24 -right-24 w-64 h-64 bg-neon-purple/20 rounded-full blur-[100px]"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer
+        class="p-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-gray-500 tracking-tighter uppercase">
+        <div>© 2026 Rakesh Lal K N // Portfolio V.2.0.5</div>
+        <div class="mt-4 md:mt-0">DESIGNED BY ANTIGRAVITY</div>
+        <div class="mt-4 md:mt-0 flex gap-4">
+            <span>Kochi, India</span>
+            <span>-</span>
+            <span>UTC +5:30</span>
         </div>
-    </div>
+    </footer>
 
-    <!-- EDUCATION PANEL -->
-    <div id="panel-education" class="section-panel">
-        <div class="max-w-4xl w-full px-8 py-16 relative">
-            <button onclick="closeSection()" class="absolute top-8 right-8 text-2xl hover:text-white transition-colors z-50">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+    <!-- Back to top -->
+    <button id="scrollToTop"
+        class="fixed bottom-8 right-8 w-12 h-12 bg-neon-blue/10 border border-neon-blue/20 flex items-center justify-center text-neon-blue opacity-0 translate-y-10 transition-all duration-500 z-50">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
 
-            <h2 class="text-4xl md:text-6xl font-bold mb-12">EDUCATION</h2>
-
-            <div class="bg-white/5 p-8 border border-gray-800 mb-8 hover:border-white transition-colors">
-                <h3 class="text-2xl font-bold">B.Sc. in Computer Science</h3>
-                <p class="text-gray-400">Bharathiyar University, Palakkad</p>
-                <p class="text-gray-500 font-mono mt-2">Dec 2018 - Dec 2021</p>
-            </div>
-
-            <div class="bg-white/5 p-8 border border-gray-800 hover:border-white transition-colors">
-                <h3 class="text-xl font-bold mb-4">Certifications</h3>
-                <ul class="list-disc pl-5 space-y-2 text-gray-300">
-                    <li>HTML, CSS, and JavaScript for Web Developers (Coursera)</li>
-                    <li>Programming with Google Go (Coursera)</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- SCRIPTS -->
     <script>
-        // --- UI LOGIC ---
-        function openSection(id) {
-            const panel = document.getElementById(`panel-${id}`);
-            panel.classList.add('active');
-            
-            // GSAP Entrance Animation for content
-            gsap.fromTo(panel.children, 
-                { y: 50, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, delay: 0.3 }
-            );
+        // --- GSAP ANIMATIONS ---
+        gsap.registerPlugin(ScrollTrigger);
 
-            // Change 3D Scene Speed/Color on open
-            if(window.targetSpeed) window.targetSpeed = 0.2; // Slow down terrain
-        }
-
-        function closeSection() {
-            const panels = document.querySelectorAll('.section-panel');
-            panels.forEach(p => p.classList.remove('active'));
-            
-            // Reset 3D Scene
-            if(window.targetSpeed) window.targetSpeed = 0.5; // Speed up terrain
-        }
-
-        // Keyboard Support (ESC to close)
-        document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape") closeSection();
+        // Progress Bar
+        gsap.to("#progress", {
+            width: "100%",
+            ease: "none",
+            scrollTrigger: {
+                trigger: "body",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 0.3
+            }
         });
 
-        // Custom Cursor Logic
+        // Hero Entrance
+        const tl = gsap.timeline();
+        tl.from(".reveal-text", {
+            y: 100,
+            opacity: 0,
+            duration: 1.2,
+            ease: "power4.out",
+            stagger: 0.2
+        })
+            .from("#hero-sub", {
+                opacity: 0,
+                y: 20,
+                duration: 1
+            }, "-=0.8")
+            .from("header", {
+                y: -50,
+                opacity: 0,
+                duration: 1
+            }, "-=1");
+
+        // Section Fade Ins
+        gsap.utils.toArray('section').forEach(section => {
+            gsap.from(section.querySelectorAll(':scope > div'), {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Interactive Cursor
         const cursorDot = document.querySelector('.cursor-dot');
         const cursorOutline = document.querySelector('.cursor-outline');
 
@@ -396,133 +563,131 @@
             cursorDot.style.left = `${posX}px`;
             cursorDot.style.top = `${posY}px`;
 
-            // Outline follows with slight delay handled by CSS transition, 
-            // but we update position here
             cursorOutline.animate({
                 left: `${posX}px`,
                 top: `${posY}px`
             }, { duration: 500, fill: "forwards" });
+
+            // Hover effects
+            const target = e.target;
+            const isClickable = target.closest('a, button, .glass-card');
+
+            if (isClickable) {
+                cursorOutline.style.width = '60px';
+                cursorOutline.style.height = '60px';
+                cursorOutline.style.backgroundColor = 'rgba(0, 243, 255, 0.1)';
+            } else {
+                cursorOutline.style.width = '40px';
+                cursorOutline.style.height = '40px';
+                cursorOutline.style.backgroundColor = 'transparent';
+            }
         });
 
-        // --- THREE.JS TERRAIN SHADER ---
+        // Scroll To Top
+        const backToTop = document.getElementById('scrollToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTop.style.opacity = '1';
+                backToTop.style.transform = 'translateY(0)';
+            } else {
+                backToTop.style.opacity = '0';
+                backToTop.style.transform = 'translateY(40px)';
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // --- THREE.JS BACKGROUND ---
         const canvas = document.querySelector('#webgl');
         const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
         const scene = new THREE.Scene();
-        // Fog for depth fading
-        scene.fog = new THREE.FogExp2(0x050505, 0.03);
+        scene.fog = new THREE.FogExp2(0x050505, 0.05);
 
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.set(0, 3, 6);
-        camera.rotation.x = -0.5;
+        camera.position.set(0, 2, 8);
+        camera.rotation.x = -0.2;
 
-        // Geometry: A plane with many segments for the wave effect
-        const geometry = new THREE.PlaneGeometry(20, 20, 64, 64);
-        
-        // Material: Wireframe "Digital Grid"
-        const material = new THREE.MeshBasicMaterial({ 
-            color: 0x333333, 
-            wireframe: true,
+        // Space Dust
+        const pointsGeometry = new THREE.BufferGeometry();
+        const pointsCount = 2000;
+        const positions = new Float32Array(pointsCount * 3);
+        const colors = new Float32Array(pointsCount * 3);
+
+        for (let i = 0; i < pointsCount * 3; i += 3) {
+            positions[i] = (Math.random() - 0.5) * 40;
+            positions[i + 1] = (Math.random() - 0.5) * 40;
+            positions[i + 2] = (Math.random() - 0.5) * 40;
+
+            colors[i] = Math.random();
+            colors[i + 1] = Math.random();
+            colors[i + 2] = 1;
+        }
+
+        pointsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        pointsGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const pointsMaterial = new THREE.PointsMaterial({
+            size: 0.05,
+            vertexColors: true,
             transparent: true,
-            opacity: 0.3
+            opacity: 0.4
         });
 
-        // Second plane for "Highlight" waves (Neon Blue)
-        const highlightMaterial = new THREE.MeshBasicMaterial({
+        const points = new THREE.Points(pointsGeometry, pointsMaterial);
+        scene.add(points);
+
+        // Terrain
+        const planeGeo = new THREE.PlaneGeometry(50, 50, 100, 100);
+        const planeMat = new THREE.MeshBasicMaterial({
             color: 0x00f3ff,
             wireframe: true,
             transparent: true,
-            opacity: 0.15
+            opacity: 0.1
         });
+        const plane = new THREE.Mesh(planeGeo, planeMat);
+        plane.rotation.x = -Math.PI / 2;
+        plane.position.y = -2;
+        scene.add(plane);
 
-        const terrain = new THREE.Mesh(geometry, material);
-        const highlightTerrain = new THREE.Mesh(geometry, highlightMaterial);
-        
-        // Position them
-        terrain.rotation.x = -Math.PI / 2;
-        highlightTerrain.rotation.x = -Math.PI / 2;
-        highlightTerrain.position.y = 0.1; // Slightly above
-
-        scene.add(terrain);
-        scene.add(highlightTerrain);
-
-        // Particles for atmosphere
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 700;
-        const posArray = new Float32Array(particlesCount * 3);
-
-        for(let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 15; // Spread
-        }
-
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.02,
-            color: 0xbc13fe, // Purple
-            transparent: true,
-            opacity: 0.8
-        });
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-
-        // Animation Variables
-        let time = 0;
-        window.targetSpeed = 0.5;
-        let currentSpeed = 0.5;
-
-        // Mouse Parallax
-        let mouseX = 0;
-        let mouseY = 0;
-
-        document.addEventListener('mousemove', (e) => {
+        const clock = new THREE.Clock();
+        let mouseX = 0, mouseY = 0;
+        window.addEventListener('mousemove', (e) => {
             mouseX = (e.clientX / window.innerWidth) * 2 - 1;
             mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
         });
 
-        // Animation Loop
-        const clock = new THREE.Clock();
-
-        function tick() {
+        function animate() {
             const elapsedTime = clock.getElapsedTime();
 
-            // Smooth speed transition
-            currentSpeed += (window.targetSpeed - currentSpeed) * 0.05;
+            points.rotation.y = elapsedTime * 0.02;
+            points.rotation.x = elapsedTime * 0.01;
 
-            time += 0.005 * currentSpeed;
-
-            // Animate Terrain Waves (Vertex Manipulation)
-            const positionAttribute = geometry.attributes.position;
-            
-            for(let i = 0; i < positionAttribute.count; i++){
-                const x = positionAttribute.getX(i);
-                // Create a moving wave based on X and Time
-                const z = Math.sin(x * 2 + time * 10) * 0.2 + Math.sin(x * 5 + time * 5) * 0.1;
-                positionAttribute.setZ(i, z);
+            // Terrain animation
+            const pos = planeGeo.attributes.position;
+            for (let i = 0; i < pos.count; i++) {
+                const x = pos.getX(i);
+                const y = pos.getY(i);
+                const z = Math.sin(x * 0.3 + elapsedTime) * 0.5 + Math.cos(y * 0.3 + elapsedTime) * 0.5;
+                pos.setZ(i, z);
             }
-            positionAttribute.needsUpdate = true;
+            pos.needsUpdate = true;
 
-            // Move terrain towards camera to simulate infinite flight
-            // Reset position when it moves too far
-            highlightTerrain.position.z = (time * 2) % 2; 
-            terrain.position.z = (time * 2) % 2;
-
-            // Camera Sway (Mouse Interaction)
-            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
-            camera.position.y += (3 + mouseY * 0.5 - camera.position.y) * 0.05;
+            // Camera follow mouse
+            camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
+            camera.position.y += (2 + mouseY - camera.position.y) * 0.02;
             camera.lookAt(0, 0, 0);
 
-            // Particles gentle rotation
-            particlesMesh.rotation.y = elapsedTime * 0.05;
-
             renderer.render(scene, camera);
-            window.requestAnimationFrame(tick);
+            requestAnimationFrame(animate);
         }
 
-        tick();
+        animate();
 
-        // Resize Handling
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
@@ -531,4 +696,5 @@
 
     </script>
 </body>
+
 </html>
